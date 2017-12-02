@@ -1,0 +1,28 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nftables
+spec:
+  restartPolicy: Always
+  hostNetwork: true
+  initContainers:
+  - name: nftables
+    image: randomcoww/k8s-nftables:latest
+    securityContext:
+      capabilities:
+        add:
+        - NET_ADMIN
+    env:
+    - name: CONFIG
+      value: |-
+        table ip filter {
+          chain output {
+            type filter hook output priority 30; policy drop;
+            ct state { established, related } accept
+            oifname "tun*" accept
+            skgid { "root" } accept
+            ip daddr { 192.168.0.0/16 } accept
+          }
+        }
+        ;
