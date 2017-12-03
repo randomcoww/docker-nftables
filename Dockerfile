@@ -1,7 +1,8 @@
 FROM alpine:latest
 
-RUN \
-  apk add --no-cache nftables
+RUN set -x \
+  \
+  && apk add --no-cache nftables
 
 COPY entrypoint.sh /
 ENTRYPOINT ["/entrypoint.sh"]
