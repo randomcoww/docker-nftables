@@ -2,6 +2,6 @@
 
 set -x \
   \
-  && nft -c $@ \
+  && nft -c "$@" \
   && nft flush ruleset \
-  && nft $@
+  && nft "$@"
